@@ -35,12 +35,12 @@ Create the technical base of the Habi PWA: Next.js (App Router) + TypeScript str
 
 Status legend: not-started | in-progress | in-review | done | deferred. Done means merged.
 
-- [ ] Phase 1 - Runnable, validated base - in-progress
+- [x] Phase 1 - Runnable, validated base - done
   - Goal: an installable, tested, CI-checked Next.js app shell with no product features
   - Exit criteria: all ACs covered; `pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass locally and in CI
   - Checkpoints:
     - [x] 1.1 - Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke test - done - d6a2c77 / PR #17 / 2026-11-12 - peer-reviewers: none (agent-merged under user authority)
-    - [ ] 1.2 - PWA (manifest, icons, Serwist SW, offline page) + GitHub Actions CI + engine-strict - in-review - 9d127e8 / PR #18 / 2026-11-12 - peer-reviewers: pending
+    - [x] 1.2 - PWA (manifest, icons, Serwist SW, offline page) + GitHub Actions CI + engine-strict - done - 33d25db / PR #18 / 2026-11-12 - peer-reviewers: none (agent-merged under user authority)
 
 Acceptance criteria coverage:
 
@@ -48,20 +48,21 @@ Acceptance criteria coverage:
 - [x] AC2 - covered by 1.1 (merged d6a2c77)
 - [x] AC3 - covered by 1.1 (merged d6a2c77)
 - [x] AC4 - covered by 1.1 (merged d6a2c77)
-- [ ] AC5 - covered by 1.2 (in-review; headless Chrome CDP, 2 profiles)
+- [x] AC5 - covered by 1.2 (merged 33d25db; headless Chrome CDP, 2 profiles)
 - [x] AC6 - covered by 1.1 (merged d6a2c77; re-verified in 1.2)
-- [ ] AC7 - covered by 1.2 (in-review; confirmed by first CI run on the PR)
+- [x] AC7 - covered by 1.2 (merged 33d25db; CI green on #18)
 
 Plan history:
 - 2026-11-12 - initial plan accepted (2 checkpoints, Node 22 LTS) by AndresNieto
 - 2026-11-12 - 1.1 in-review; AC1 AC2 AC3 AC4 AC6 covered; `engine-strict` added to 1.2 scope (test-agent finding)
 - 2026-11-12 - 1.1 merged (d6a2c77, squash, agent-merged under user authority); 1.2 in-progress
 - 2026-11-12 - 1.2 in-review after 1 bugfix round (D1 offline fallback → setCatchHandler)
+- 2026-11-12 - 1.2 merged (33d25db); plan complete
 
 ## Pull Requests
 
 - Feature PR (draft): #16
-- Checkpoint PRs: 1.1 - #17 (merged d6a2c77); 1.2 - #18 (in-review, CI green) (into `feature/HB-3-nextjs-pwa-scaffold`)
+- Checkpoint PRs: 1.1 - #17 (merged d6a2c77); 1.2 - #18 (merged 33d25db, CI green) (into `feature/HB-3-nextjs-pwa-scaffold`)
 
 ## Risks, Assumptions, Open Questions
 
@@ -82,4 +83,9 @@ Plan history:
 
 ## Handoff
 
-Filled at finish-ticket.
+- Scope delivered: Next.js 16.4.6 + React 19.3 + TS strict + Tailwind 4.3, ESLint/Prettier, Vitest (2 tests), Node 22 pinned and enforced, Serwist PWA (manifest, icons, SW at `/serwist/sw.js`, `/offline` fallback), GitHub Actions CI.
+- ACs: all 7 checked with evidence (see coverage above).
+- Validation: install --frozen-lockfile, format:check, lint, typecheck, test, build pass locally (Node 22.14.0) and in CI (#18 runs green).
+- Bugfix rounds: 1 (D1 in 1.2).
+- Residual risks: `/` not precached (offline `/` requires a prior SW-controlled visit); two pnpm `serwist` instances (avoid instanceof-based Serwist options); placeholder theme color/icons until HB-4; undefined `--font-geist-*` vars until HB-4; checkpoint task branches and feature branch not auto-deleted (repo setting off).
+- Peer review: none (merges performed by the orchestrator under AndresNieto's authorization of 2026-11-12).

@@ -13,7 +13,7 @@ Human summary: [human-readable.md](human-readable.md)
 
 - Last tracker refresh: 2026-11-12
 - Sync status: tracker current, knowledge base n/a, GitHub current, local code clean
-- Lifecycle write status: start note posted; board Backlog -> Ready -> In progress
+- Lifecycle write status: audit comments Iter 1–9 posted on #3; board Backlog -> Ready -> In progress -> In review (-> In progress for bugfix -> In review); deploy pending umbrella merge
 - Workflow adherence: On workflow
 
 ## Branch
@@ -53,8 +53,8 @@ Bootstrap the Next.js PWA with the stack, layout and validation commands declare
 
 | Phase | Checkpoint | Scope | Status | Commit / PR | ACs | Peer-reviewers | Validation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 - Runnable, validated base (in-progress) | 1.1 | Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke | done | d6a2c77 / #17 | AC1 AC2 AC3 AC4 AC6 | none (agent-merged) | install, format:check, lint, typecheck, test, build, dev |
-| 1 - Runnable, validated base (in-progress) | 1.2 | PWA (manifest, icons, Serwist, offline) + CI + engine-strict | in-review | 9d127e8 / #18 | AC5 AC7 (AC6 re-check) | pending | install, format:check, lint, typecheck, test, build, headless Chrome offline |
+| 1 - Runnable, validated base (done) | 1.1 | Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke | done | d6a2c77 / #17 | AC1 AC2 AC3 AC4 AC6 | none (agent-merged) | install, format:check, lint, typecheck, test, build, dev |
+| 1 - Runnable, validated base (done) | 1.2 | PWA (manifest, icons, Serwist, offline) + CI + engine-strict | done | 33d25db / #18 | AC5 AC7 (AC6 re-check) | none (agent-merged) | install, format:check, lint, typecheck, test, build, headless Chrome offline |
 
 Acceptance criteria coverage:
 
@@ -62,15 +62,16 @@ Acceptance criteria coverage:
 - [x] AC2 - covered by 1.1 (d6a2c77)
 - [x] AC3 - covered by 1.1 (d6a2c77)
 - [x] AC4 - covered by 1.1 (d6a2c77)
-- [ ] AC5 - covered by 1.2 (in-review)
+- [x] AC5 - covered by 1.2 (33d25db)
 - [x] AC6 - covered by 1.1 (d6a2c77; re-verified in 1.2)
-- [ ] AC7 - covered by 1.2 (in-review; CI run on PR)
+- [x] AC7 - covered by 1.2 (33d25db; CI green)
 
 Plan history:
 - 2026-11-12 - initial plan accepted
 - 2026-11-12 - 1.1 in-review (3f16878, #17); engine-strict added to 1.2
 - 2026-11-12 - 1.1 merged (d6a2c77, squash, agent-merged under user authority); 1.2 in-progress
 - 2026-11-12 - 1.2 in-review after 1 bugfix round (D1)
+- 2026-11-12 - 1.2 merged (33d25db); plan complete
 
 ## Validation Commands
 
