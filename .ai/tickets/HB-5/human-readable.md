@@ -1,9 +1,9 @@
-# HB-5 — Dominio + datos mock
+# HB-5 — Domain + mock data
 
-Issue: [#5](https://github.com/AndresNieto/habitest/issues/5) · Branch: `feature/HB-5-domain-mock-data` · Modo rápido.
+Issue: [#5](https://github.com/AndresNieto/habitest/issues/5) · Branch: `feature/HB-5-domain-mock-data` · Fast mode.
 
-- `src/domain/schemas.ts`: tipos + esquemas Zod (User, Property, PropertyImage, PropertyDocument, Visit, NotaryAppointment, Transaction) y etiquetas en español.
-- `src/domain/rules.ts`: reglas de negocio puras (ciclo de vida, requisitos para enviar a revisión, revisión solo Admin con motivo, visitas solo a aprobados y no del dueño, asignación de broker sin doble reserva, notaría tras visita completada).
-- `src/data/seed.ts`: 24 inmuebles (18 aprobados, 3 en revisión, 2 rechazados, 1 borrador) en 9 ciudades, fotos de Unsplash; 3 tenants, 1 admin, 3 brokers; visitas, notaría y transacciones.
-- `src/data/db.ts` + `src/data/repositories/*`: repositorios async con latencia simulada, persistencia en localStorage (`habi.db`) y `resetDb()` ("Restablecer datos demo" en el menú).
+- `src/domain/schemas.ts`: types + Zod schemas (User, Property, PropertyImage, PropertyDocument, Visit, NotaryAppointment, Transaction) and Spanish UI labels.
+- `src/domain/rules.ts`: pure business rules (lifecycle, submission requirements, admin-only review with reason, visits only on approved and not by the owner, broker assignment without double booking, notary after a completed visit).
+- `src/data/seed.ts`: 24 properties (18 approved, 3 pending review, 2 rejected, 1 draft) across 9 cities with Unsplash photos; 3 tenants, 1 admin, 3 brokers; visits, notary appointment and transactions.
+- `src/data/db.ts` + `src/data/repositories/*`: async repositories with simulated latency, localStorage persistence (`habi.db`) and `resetDb()` ("Restablecer datos demo" in the user menu).
 - [x] AC1 · [x] AC2 · [x] AC3 · [x] AC4 · [x] AC5 (22 tests).

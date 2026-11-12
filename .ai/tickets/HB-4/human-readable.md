@@ -1,13 +1,13 @@
 # HB-4 — Design system + app shell
 
-Issue: [#4](https://github.com/AndresNieto/habitest/issues/4) · Branch: `feature/HB-4-design-system-shell` · Process: modo rápido (1 PR, auditoría inicio/cierre).
+Issue: [#4](https://github.com/AndresNieto/habitest/issues/4) · Branch: `feature/HB-4-design-system-shell` · Process: fast mode (1 PR, start/close audit only).
 
-## Qué se entrega
-- Tokens de diseño (color, tipografía Inter, radios, sombras) en variables CSS + `@theme` de Tailwind (`src/app/globals.css`).
-- Componentes base en `src/components/ui`: Button, Input, Select, Card, Badge/StatusBadge, Modal (dialog/sheet), Avatar, EmptyState, Skeleton.
-- App shell (`src/components/shell`): header con logo, buscador tipo píldora y menú de usuario; bottom nav en móvil; enlaces según rol.
-- Sesión demo por rol (`src/features/session/session-store.ts`) y página `/login` con selector de rol (HB-6 la completará).
-- Galería en `/design`; página 404 "sección en construcción".
+## Delivered
+- Design tokens (color, Inter typography, radii, shadows) as CSS variables + Tailwind `@theme` (`src/app/globals.css`).
+- Base components in `src/components/ui`: Button, Input, Select, Card, Badge/StatusBadge, Modal (dialog/sheet), Avatar, EmptyState, Skeleton.
+- App shell (`src/components/shell`): header with logo, pill search and user menu; mobile bottom nav; role-aware links.
+- Demo role session (`src/features/session/session-store.ts`) and `/login` role picker (HB-6 completes it).
+- Component gallery at `/design`; "section under construction" 404 page.
 
-## Criterios
-- [x] AC1 tokens · [x] AC2 componentes · [x] AC3 shell responsive · [x] AC4 navegación por rol · [x] AC5 foco visible, contraste AA (brand #E11D48 sobre blanco 4.7:1), teclado (dialog nativo, Esc en menú).
+## Acceptance criteria
+- [x] AC1 tokens · [x] AC2 components · [x] AC3 responsive shell · [x] AC4 role navigation · [x] AC5 visible focus, AA contrast (brand #E11D48 on white 4.7:1), keyboard (native dialog, Esc closes menu).

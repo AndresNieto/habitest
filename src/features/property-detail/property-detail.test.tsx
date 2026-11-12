@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { Component, type ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resetDb } from "@/data";
 import { createSeed } from "@/data/seed";
@@ -11,6 +12,17 @@ const notFound = vi.fn(() => {
 vi.mock("next/navigation", () => ({ notFound: () => notFound() }));
 
 const { PropertyDetail, canView } = await import("./property-detail");
+
+/** Stands in for Next's not-found boundary. */
+class Boundary extends Component<{ children: ReactNode }, { error: boolean }> {
+  state = { error: false };
+  static getDerivedStateFromError() {
+    return { error: true };
+  }
+  render() {
+    return this.state.error ? <p>not-found boundary</p> : this.props.children;
+  }
+}
 
 const seed = createSeed();
 const find = (status: string) =>
@@ -80,7 +92,16 @@ describe("PropertyDetail", () => {
 
   it("returns 404 for a pending property viewed by a guest", async () => {
     const p = find("pending_review");
-    expect(() => render(<PropertyDetail id={p.id} />)).not.toThrow();
-    await vi.waitFor(() => expect(notFound).toHaveBeenCalled());
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    render(
+      <Boundary>
+        <PropertyDetail id={p.id} />
+      </Boundary>,
+    );
+    expect(await screen.findByText("not-found boundary")).toBeInTheDocument();
+    expect(notFound).toHaveBeenCalled();
+    consoleError.mockRestore();
   });
 });
