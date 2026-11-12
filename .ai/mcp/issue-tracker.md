@@ -69,9 +69,11 @@ Conflicts: prefer code for implementation facts, tracker/knowledge base for prod
 Fill in tool-specific details on adoption (e.g. for Jira: cloud ID, custom field IDs for acceptance criteria/story points, link type for tests; for GitHub Issues: label conventions, project board).
 
 ```text
-Adapter:                 TBD
-Acceptance-criteria field: TBD
-Notes:                   TBD
+Adapter:                 GitHub Issues via gh CLI (AndresNieto/habitest)
+Acceptance-criteria field: `## Acceptance criteria` checkboxes in the issue body
+Notes:                   <TICKET-ID> HB-<n> == issue #<n>. Epic HB-1 holds every MVP ticket as a GitHub sub-issue;
+                         new tickets are linked with `gh api -X POST repos/AndresNieto/habitest/issues/1/sub_issues -F sub_issue_id=<issue .id>`.
+                         Issue bodies and comments for stakeholders are written in Spanish; .ai/ docs stay in English.
 ```
 
 ### GitHub Issues Adapter

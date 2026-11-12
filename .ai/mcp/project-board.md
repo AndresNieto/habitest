@@ -12,6 +12,8 @@ Backlog -> Planning -> Executing -> Testing -> BugFixing -> Done
 
 Use the status names the profile defines; never invent new ones.
 
+Habi Board has the columns `Backlog / Ready / In progress / In review / Done`. Lifecycle statuses map to them as listed in the profile: Planning -> Ready, Executing -> In progress, Testing -> In review, BugFixing -> In progress (the iteration comment says `bugfix`), Done -> Done.
+
 | Audit phase | Board status | Moved by |
 | --- | --- | --- |
 | `planning` | Backlog (not picked up) or Planning | `start-ticket` |

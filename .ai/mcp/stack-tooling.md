@@ -3,8 +3,8 @@
 Contract for framework/language tooling (SDK docs, package metadata, analyzer, diagnostics, codegen, test tooling), whether via an MCP server, CLI, or documentation. Fill in on adoption.
 
 ```text
-Tooling:                 TBD   # e.g. Dart/Flutter MCP, TypeScript language server, Python tooling
-Covers:                  TBD   # SDK/framework docs, package lookup, analyzer, diagnostics, codegen
+Tooling:                 TypeScript compiler (pnpm typecheck), ESLint, Next.js docs (nextjs.org/docs), Serwist docs, IDE diagnostics
+Covers:                  framework/SDK docs, package lookup (pnpm view), type and lint diagnostics; no codegen
 ```
 
 ## Rules
