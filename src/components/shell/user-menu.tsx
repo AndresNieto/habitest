@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { LogOut, Menu, UserRound } from "lucide-react";
+import { LogOut, Menu, RotateCcw, UserRound } from "lucide-react";
+import { resetDb } from "@/data";
 import { Avatar } from "@/components/ui";
 import { NAV } from "./nav";
 import {
@@ -104,6 +105,19 @@ export function UserMenu() {
               {ROLE_LABEL[role]}
             </button>
           ))}
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              resetDb();
+              close();
+              window.location.reload();
+            }}
+            className={item}
+          >
+            <RotateCcw className="size-4" aria-hidden />
+            Restablecer datos demo
+          </button>
           {user ? (
             <button
               type="button"

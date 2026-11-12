@@ -2,7 +2,9 @@
 
 import { useSyncExternalStore } from "react";
 
-export type Role = "tenant" | "admin" | "broker";
+import type { Role } from "@/domain/schemas";
+
+export type { Role };
 
 export type SessionUser = { id: string; name: string; role: Role };
 
@@ -52,10 +54,10 @@ export function useSession(): SessionUser | null {
   return useSyncExternalStore(subscribe, read, () => null);
 }
 
-/** Demo users used by the role switcher until mock auth (HB-6) lands. */
+/** Demo users (match the seed in `@/data/seed`) for the role switcher. */
 export const DEMO_USERS: Record<Role, SessionUser> = {
   tenant: { id: "u-tenant-1", name: "Laura Gómez", role: "tenant" },
-  admin: { id: "u-admin-1", name: "Andrés Admin", role: "admin" },
+  admin: { id: "u-admin-1", name: "Andrea Molina", role: "admin" },
   broker: { id: "u-broker-1", name: "Camilo Rojas", role: "broker" },
 };
 
