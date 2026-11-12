@@ -20,7 +20,7 @@ Human summary: [human-readable.md](human-readable.md)
 
 - Branch: `feature/HB-3-nextjs-pwa-scaffold`
 - Base: `origin/development`
-- Feature PR: pending (draft)
+- Feature PR: #16 (draft)
 - Checkpoint branches: `task/HB-3-1.1-base-tooling`, `task/HB-3-1.2-pwa-ci` -> PR into the feature branch
 
 ## Objective
@@ -29,8 +29,8 @@ Bootstrap the Next.js PWA with the stack, layout and validation commands declare
 
 ## Target Files And Symbols
 
-- `package.json`, `pnpm-lock.yaml`, `.nvmrc`, `.npmrc` (if needed) - tooling, scripts `dev build start lint typecheck format format:check test`
-- `tsconfig.json` (strict, `@/*` -> `src/*`), `next.config.ts`, `postcss.config.mjs`, `eslint.config.mjs`, `.prettierrc`, `.prettierignore`, `vitest.config.ts`, `vitest.setup.ts`
+- `package.json`, `pnpm-lock.yaml`, `.nvmrc`, `pnpm-workspace.yaml` (build-script allow list) - tooling, scripts `dev build start lint typecheck format format:check test test:watch`; `.npmrc` with `engine-strict=true` in 1.2
+- `tsconfig.json` (strict, `@/*` -> `src/*`), `next.config.ts`, `eslint.config.mjs`, `.prettierrc`, `.prettierignore`, `vitest.config.mts`, `vitest.setup.ts` (no postcss config: Tailwind v4 via `@tailwindcss/turbopack` loader in `next.config.ts`)
 - `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css` - minimal placeholder page (Spanish copy, `lang="es"`)
 - `src/app/page.test.tsx` - smoke test
 - 1.2: `src/app/manifest.ts`, `src/app/sw.ts`, `src/app/offline/page.tsx`, `public/icons/*`, `.github/workflows/ci.yml`
@@ -53,21 +53,22 @@ Bootstrap the Next.js PWA with the stack, layout and validation commands declare
 
 | Phase | Checkpoint | Scope | Status | Commit / PR | ACs | Peer-reviewers | Validation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 - Runnable, validated base (not-started) | 1.1 | Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke | not-started | - | AC1 AC2 AC3 AC4 AC6 | - | - |
-| 1 - Runnable, validated base (not-started) | 1.2 | PWA (manifest, icons, Serwist, offline) + CI | not-started | - | AC5 AC7 (AC6 re-check) | - | - |
+| 1 - Runnable, validated base (in-progress) | 1.1 | Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke | in-review | PR pending | AC1 AC2 AC3 AC4 AC6 | pending | install, format:check, lint, typecheck, test, build, dev |
+| 1 - Runnable, validated base (in-progress) | 1.2 | PWA (manifest, icons, Serwist, offline) + CI + engine-strict | not-started | - | AC5 AC7 (AC6 re-check) | - | - |
 
 Acceptance criteria coverage:
 
-- [ ] AC1 - not yet covered
-- [ ] AC2 - not yet covered
-- [ ] AC3 - not yet covered
-- [ ] AC4 - not yet covered
+- [ ] AC1 - covered by 1.1 (in-review)
+- [ ] AC2 - covered by 1.1 (in-review)
+- [ ] AC3 - covered by 1.1 (in-review)
+- [ ] AC4 - covered by 1.1 (in-review)
 - [ ] AC5 - not yet covered
-- [ ] AC6 - not yet covered
+- [ ] AC6 - covered by 1.1 (in-review; re-verified in 1.2)
 - [ ] AC7 - not yet covered
 
 Plan history:
 - 2026-11-12 - initial plan accepted
+- 2026-11-12 - 1.1 in-review; engine-strict added to 1.2
 
 ## Validation Commands
 

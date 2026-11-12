@@ -35,40 +35,45 @@ Create the technical base of the Habi PWA: Next.js (App Router) + TypeScript str
 
 Status legend: not-started | in-progress | in-review | done | deferred. Done means merged.
 
-- [ ] Phase 1 - Runnable, validated base - not-started
+- [ ] Phase 1 - Runnable, validated base - in-progress
   - Goal: an installable, tested, CI-checked Next.js app shell with no product features
   - Exit criteria: all ACs covered; `pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass locally and in CI
   - Checkpoints:
-    - [ ] 1.1 - Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke test - not-started
+    - [ ] 1.1 - Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke test - in-review - PR pending / 2026-11-12 - peer-reviewers: pending
     - [ ] 1.2 - PWA (manifest, icons, Serwist SW, offline page) + GitHub Actions CI - not-started
 
 Acceptance criteria coverage:
 
-- [ ] AC1 - not yet covered (1.1)
-- [ ] AC2 - not yet covered (1.1)
-- [ ] AC3 - not yet covered (1.1)
-- [ ] AC4 - not yet covered (1.1)
+- [ ] AC1 - covered by 1.1 (in-review; checked on merge)
+- [ ] AC2 - covered by 1.1 (in-review; checked on merge)
+- [ ] AC3 - covered by 1.1 (in-review; checked on merge)
+- [ ] AC4 - covered by 1.1 (in-review; checked on merge)
 - [ ] AC5 - not yet covered (1.2)
-- [ ] AC6 - not yet covered (1.1, re-verified in 1.2)
+- [ ] AC6 - covered by 1.1 (in-review; re-verified in 1.2)
 - [ ] AC7 - not yet covered (1.2)
 
 Plan history:
 - 2026-11-12 - initial plan accepted (2 checkpoints, Node 22 LTS) by AndresNieto
+- 2026-11-12 - 1.1 in-review; AC1 AC2 AC3 AC4 AC6 covered; `engine-strict` added to 1.2 scope (test-agent finding)
 
 ## Pull Requests
 
-- Feature PR (draft): pending
-- Checkpoint PRs: none yet
+- Feature PR (draft): #16
+- Checkpoint PRs: 1.1 - pending (into `feature/HB-3-nextjs-pwa-scaffold`)
 
 ## Risks, Assumptions, Open Questions
 
 - Local default Node is 18.20; the project pins 22 via `.nvmrc` (`nvm use`). Developers must switch.
 - Serwist needs a webpack build; if the Next.js version defaults to Turbopack for `build`, the build script must opt into webpack. Verified in 1.2.
+- `engines` is not enforced without `engine-strict`; `.npmrc` with `engine-strict=true` lands in 1.2.
+- `src/app/globals.css` references undefined `--font-geist-sans/mono`; deferred to HB-4 (design tokens).
+- `next.config.ts` keeps `agentRules: false` (Next 16 `next dev` otherwise rewrites root `AGENTS.md`) and `turbopack.root` (stray lockfiles in the home dir).
 - App libraries (Zustand, React Hook Form, Zod) are **not** installed here; confirmed later in HB-5/HB-9.
 
 ## Validation Plan
 
 - 1.1: `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm dev` boots.
+- 1.1 evidence (2026-11-12, Node 22.14.0): install --frozen-lockfile, format:check, lint, typecheck, test 1/1, build all pass (orchestrator re-run + test-agent); dev server served `/` with `lang="es"` and the heading; lint/prettier negative probes failed as expected.
 - 1.2: same + production build emits the service worker, the manifest is served, `/offline` renders; CI green on the checkpoint PR.
 
 ## Handoff
