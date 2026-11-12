@@ -1,0 +1,10 @@
+.ai/
+.claude/
+.github/
+.next/
+node_modules/
+coverage/
+out/
+pnpm-lock.yaml
+next-env.d.ts
+*.md

@@ -2,7 +2,7 @@
 
 Navigation map for feature ownership. Load only when locating owners, entry points, or files. Keep it current when features are added or moved.
 
-Status: **planned**. No application code exists yet; paths are the agreed target layout (see `project-profile.md` Architecture). Update each row when its ticket lands.
+Status: **planned** except the base app (`src/app/layout.tsx`, `page.tsx`, HB-3). Feature paths are the agreed target layout (see `project-profile.md` Architecture). Update each row when its ticket lands.
 
 | Feature | Entry point / route | Main files | Owner | Notes |
 | --- | --- | --- | --- | --- |
@@ -22,9 +22,9 @@ Status: **planned**. No application code exists yet; paths are the agreed target
 
 | Concern | Location |
 | --- | --- |
-| Routing | `src/app/` (App Router; route groups per role) |
+| Routing | `src/app/` (App Router; `layout.tsx` and `page.tsx` exist; route groups per role come with their tickets) |
 | Networking / API clients | none in MVP; `src/data/repositories/` is the seam for a future API |
 | Error handling | `src/app/error.tsx`, `src/app/not-found.tsx` |
 | Logging | none in MVP (console in dev only) |
-| Theme / design tokens | Tailwind config + CSS variables in `src/app/globals.css` |
+| Theme / design tokens | `src/app/globals.css` (Tailwind CSS v4 `@theme`; no `tailwind.config` file) |
 | Auth | mock: `src/features/auth/` (Zustand session store + RoleGuard) |

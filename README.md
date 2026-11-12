@@ -1,8 +1,38 @@
-# AI Project Template
+# Habi
+
+PWA para comprar y vender inmuebles con tres roles: Tenant (usuario que compra o publica inmuebles; no es arrendatario), Admin (valida inmuebles y documentos) y Broker (muestra inmuebles y agenda notaría). El MVP funciona solo con datos simulados.
+
+Estado: base técnica (HB-3, checkpoint 1.1). La página de inicio es provisional; las funcionalidades de producto llegan en tickets posteriores.
+
+## Requisitos previos
+
+- [nvm](https://github.com/nvm-sh/nvm) para gestionar versiones de Node.
+- Node 22: la versión exacta está en `.nvmrc` (22.14.0). Desde la raíz del repositorio ejecuta `nvm install` (si aún no la tienes) y luego `nvm use`.
+- pnpm 11: la versión está fijada en el campo `packageManager` de `package.json` (11.11.0). Actívala con `corepack enable` o instálala globalmente.
+
+Después instala las dependencias con `pnpm install`.
+
+## Comandos
+
+| Comando | Qué hace |
+| --- | --- |
+| `pnpm dev` | Inicia el servidor de desarrollo de Next.js (por defecto en http://localhost:3000). |
+| `pnpm build` | Genera el build de producción. |
+| `pnpm start` | Sirve el build de producción; ejecuta `pnpm build` antes. |
+| `pnpm lint` | Ejecuta ESLint. |
+| `pnpm typecheck` | Comprueba los tipos de TypeScript sin emitir archivos. |
+| `pnpm format` | Da formato a los archivos con Prettier. |
+| `pnpm format:check` | Comprueba el formato sin modificar archivos. |
+| `pnpm test` | Ejecuta los tests una vez con Vitest. |
+| `pnpm test:watch` | Ejecuta Vitest en modo watch. |
+
+---
+
+## AI operating model
 
 Project-agnostic AI operating model. Copy it into a new repository to get shared governance, business-source rules, multi-agent collaboration rules, Git/GitHub discipline, and a ticket lifecycle (start, continue, checkpoint, finish, review, PR feedback).
 
-## Adopt In A New Project
+### Adopt In A New Project
 
 1. Copy `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, and `.ai/` into the repository root.
 2. Fill in `.ai/context/project-profile.md`. It is the **only** file that must be customized; every other file reads its values from there.
@@ -14,7 +44,7 @@ Project-agnostic AI operating model. Copy it into a new repository to get shared
 8. Ask a human to run the one-time repository settings command in `.ai/mcp/github.md`.
 9. Commit with `docs: adopt ai operating model`.
 
-## Delivery Flow
+### Delivery Flow
 
 ```text
 start-ticket <ID>          branch, ticket docs, Feature Plan, draft umbrella PR, card -> Planning
@@ -33,7 +63,7 @@ human merges               deploy comment, card -> Done, ticket closed
 
 Every arrow that moves the card is preceded by an iteration audit comment (`.ai/standards/audit.md`).
 
-## Layout
+### Layout
 
 ```text
 AGENTS.md                         root shim -> .ai/AGENTS.md
@@ -56,6 +86,6 @@ CLAUDE.md                         root shim -> .ai/AGENTS.md
   tickets/_template/              paired ticket doc templates
 ```
 
-## Placeholder Convention
+### Placeholder Convention
 
 Values written as `<angle-bracket-name>` (for example `<integration-branch>`, `<TICKET-ID>`) are resolved from `.ai/context/project-profile.md`. Agents must read the profile instead of guessing them.
