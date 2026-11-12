@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import { Avatar } from "@/components/ui";
 import {
@@ -24,6 +24,10 @@ const HOME: Record<Role, string> = {
 
 export function RolePicker() {
   const router = useRouter();
+  const next = useSearchParams().get("next");
+  // Only follow same-site relative paths.
+  const safeNext =
+    next?.startsWith("/") && !next.startsWith("//") ? next : null;
   return (
     <ul className="mt-8 flex flex-col gap-3">
       {(Object.keys(DEMO_USERS) as Role[]).map((role) => (
@@ -32,7 +36,7 @@ export function RolePicker() {
             type="button"
             onClick={() => {
               setSession(DEMO_USERS[role]);
-              router.push(HOME[role]);
+              router.push(safeNext ?? HOME[role]);
             }}
             className="border-line hover:shadow-card flex w-full items-center gap-4 rounded-lg border p-4 text-left transition-shadow"
           >

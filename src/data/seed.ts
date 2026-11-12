@@ -1,4 +1,5 @@
 import type {
+  Amenity,
   NotaryAppointment,
   Property,
   PropertyDocument,
@@ -17,7 +18,7 @@ export type Db = {
   transactions: Transaction[];
 };
 
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
 
 export const USERS: User[] = [
   {
@@ -484,6 +485,27 @@ const DESCRIPTIONS: Record<PropertyType, string> = {
     "Casa campestre rodeada de naturaleza, con amplias zonas verdes, chimenea y kiosco BBQ. A pocos minutos de la ciudad, perfecta para vivir con calma o como segunda vivienda.",
 };
 
+const AMENITIES: Record<PropertyType, Amenity[]> = {
+  house: ["jardin", "chimenea", "bbq", "estudio", "terraza"],
+  apartment: [
+    "porteria",
+    "ascensor",
+    "gimnasio",
+    "balcon",
+    "zonas_verdes",
+    "parque_infantil",
+  ],
+  penthouse: [
+    "porteria",
+    "ascensor",
+    "piscina",
+    "gimnasio",
+    "terraza",
+    "estudio",
+  ],
+  country_house: ["jardin", "piscina", "chimenea", "bbq", "zonas_verdes"],
+};
+
 const iso = (d: string) => new Date(`${d}T15:00:00.000Z`).toISOString();
 
 function docs(propertyId: string, date: string): PropertyDocument[] {
@@ -540,6 +562,7 @@ function buildProperties(): Property[] {
       areaM2,
       parking,
       stratum,
+      amenities: AMENITIES[type].filter((_, k) => (k + i) % 4 !== 0),
       status,
       images: (isDraft ? imageIds.slice(0, 1) : imageIds).map((img, k) => ({
         id: `${id}-img-${k + 1}`,

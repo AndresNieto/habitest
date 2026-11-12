@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { RolePicker } from "./role-picker";
 
 export const metadata: Metadata = { title: "Ingresar" };
@@ -10,7 +11,9 @@ export default function LoginPage() {
       <p className="text-ink-muted mt-2">
         Versión demo: elige con qué rol quieres entrar.
       </p>
-      <RolePicker />
+      <Suspense>
+        <RolePicker />
+      </Suspense>
     </div>
   );
 }

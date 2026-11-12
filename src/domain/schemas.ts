@@ -64,6 +64,37 @@ export const PropertyDocumentSchema = z.object({
 });
 export type PropertyDocument = z.infer<typeof PropertyDocumentSchema>;
 
+export const AmenitySchema = z.enum([
+  "porteria",
+  "ascensor",
+  "gimnasio",
+  "piscina",
+  "balcon",
+  "terraza",
+  "jardin",
+  "chimenea",
+  "bbq",
+  "zonas_verdes",
+  "estudio",
+  "parque_infantil",
+]);
+export type Amenity = z.infer<typeof AmenitySchema>;
+
+export const AMENITY_LABEL: Record<Amenity, string> = {
+  porteria: "Portería 24 horas",
+  ascensor: "Ascensor",
+  gimnasio: "Gimnasio",
+  piscina: "Piscina",
+  balcon: "Balcón",
+  terraza: "Terraza",
+  jardin: "Jardín",
+  chimenea: "Chimenea",
+  bbq: "Zona BBQ",
+  zonas_verdes: "Zonas verdes",
+  estudio: "Estudio",
+  parque_infantil: "Parque infantil",
+};
+
 /** Editable data a Tenant provides when publishing. */
 export const PropertyInputSchema = z.object({
   title: z.string().trim().min(5, "Mínimo 5 caracteres").max(90),
@@ -78,6 +109,7 @@ export const PropertyInputSchema = z.object({
   areaM2: z.number().positive().max(100_000),
   parking: z.number().int().min(0).max(20),
   stratum: z.number().int().min(1).max(6),
+  amenities: z.array(AmenitySchema).max(12),
 });
 export type PropertyInput = z.infer<typeof PropertyInputSchema>;
 
