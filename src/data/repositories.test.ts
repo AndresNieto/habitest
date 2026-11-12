@@ -69,6 +69,7 @@ describe("property repository", () => {
           areaM2: 150,
           parking: 1,
           stratum: 4,
+          amenities: ["jardin"],
         },
         images: approved.images.map(({ url, alt }) => ({ url, alt })),
         documents: approved.documents.map(({ kind, fileName, sizeKb }) => ({
