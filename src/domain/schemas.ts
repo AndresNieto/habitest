@@ -96,19 +96,39 @@ export const AMENITY_LABEL: Record<Amenity, string> = {
 };
 
 /** Editable data a Tenant provides when publishing. */
+const num = (msg = "Ingresa un número válido") => z.number({ error: msg });
+
 export const PropertyInputSchema = z.object({
-  title: z.string().trim().min(5, "Mínimo 5 caracteres").max(90),
-  description: z.string().trim().min(20, "Mínimo 20 caracteres").max(2000),
-  type: PropertyTypeSchema,
-  price: z.number().int().min(10_000_000, "Precio mínimo $10.000.000"),
-  city: z.string().trim().min(2),
-  neighborhood: z.string().trim().min(2),
-  address: z.string().trim().min(5),
-  bedrooms: z.number().int().min(0).max(20),
-  bathrooms: z.number().int().min(1).max(20),
-  areaM2: z.number().positive().max(100_000),
-  parking: z.number().int().min(0).max(20),
-  stratum: z.number().int().min(1).max(6),
+  title: z
+    .string()
+    .trim()
+    .min(5, "El título debe tener al menos 5 caracteres")
+    .max(90, "Máximo 90 caracteres"),
+  description: z
+    .string()
+    .trim()
+    .min(20, "Describe el inmueble con al menos 20 caracteres")
+    .max(2000, "Máximo 2.000 caracteres"),
+  type: z.enum(PropertyTypeSchema.options, {
+    error: "Selecciona el tipo de inmueble",
+  }),
+  price: num("Ingresa el precio")
+    .int()
+    .min(10_000_000, "El precio mínimo es $10.000.000")
+    .max(100_000_000_000, "Revisa el precio"),
+  city: z.string().trim().min(2, "Ingresa la ciudad"),
+  neighborhood: z.string().trim().min(2, "Ingresa el barrio"),
+  address: z.string().trim().min(5, "Ingresa la dirección"),
+  bedrooms: num().int().min(0).max(20, "Máximo 20"),
+  bathrooms: num().int().min(1, "Al menos 1 baño").max(20, "Máximo 20"),
+  areaM2: num("Ingresa el área")
+    .positive("El área debe ser mayor a 0")
+    .max(100_000, "Revisa el área"),
+  parking: num().int().min(0).max(20, "Máximo 20"),
+  stratum: num("Selecciona el estrato")
+    .int()
+    .min(1, "Selecciona el estrato")
+    .max(6, "Selecciona el estrato"),
   amenities: z.array(AmenitySchema).max(12),
 });
 export type PropertyInput = z.infer<typeof PropertyInputSchema>;
