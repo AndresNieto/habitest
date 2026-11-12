@@ -1,45 +1,82 @@
 # Habi
 
-PWA para comprar y vender inmuebles con tres roles: Tenant (usuario que compra o publica inmuebles; no es arrendatario), Admin (valida inmuebles y documentos) y Broker (muestra inmuebles y agenda notaría). El MVP funciona solo con datos simulados.
+An installable PWA to buy and sell homes, with an Airbnb-style marketplace UX. Three roles:
 
-Estado: base técnica completa (HB-3): Next.js + PWA + CI. La página de inicio es provisional; las funcionalidades de producto llegan en tickets posteriores.
+- **Tenant**: end user who buys or publishes properties (not a renter; there are no rentals).
+- **Admin**: platform operator who reviews properties and documents and oversees finances.
+- **Broker**: field agent who shows properties and schedules notary appointments.
 
-## Requisitos previos
+The MVP runs on **mock data only**: everything is seeded in the browser and persisted to `localStorage`. No backend, real auth or payments. The UI is in Spanish (es-CO) with prices in COP.
 
-- [nvm](https://github.com/nvm-sh/nvm) para gestionar versiones de Node.
-- Node 22: la versión exacta está en `.nvmrc` (22.14.0). Desde la raíz del repositorio ejecuta `nvm install` (si aún no la tienes) y luego `nvm use`. pnpm rechaza instalar con una versión de Node fuera del rango `>=22 <23` (`engines` en `package.json`; `engineStrict: true` en `pnpm-workspace.yaml`).
-- pnpm 11: la versión está fijada en el campo `packageManager` de `package.json` (11.11.0). Actívala con `corepack enable` o instálala globalmente.
+## Status (v0.1.0)
 
-Después instala las dependencias con `pnpm install`.
+| Area | Ticket | State |
+| --- | --- | --- |
+| Next.js + PWA + CI scaffold | HB-3 | done |
+| Design system + app shell (role-aware nav) | HB-4 | done |
+| Domain model, business rules, mock data | HB-5 | done |
+| Listings home: search, type bar, URL filters | HB-7 | done |
+| Property detail: gallery, map, visit CTA | HB-8 | done |
+| Mock auth, publish wizard, admin review, visits, broker agenda, finance | HB-6, HB-9 to HB-13 | planned |
 
-## Comandos
+Try it:
 
-| Comando | Qué hace |
+- `/`: approved properties; search a city (accent-insensitive, e.g. `medellin`), filter by type, price, bedrooms and bathrooms.
+- `/properties/p-005`: property detail.
+- User menu (avatar): switch the demo role (Tenant, Admin, Broker) or **reset demo data**.
+- `/design`: base component gallery.
+
+## Prerequisites
+
+- [nvm](https://github.com/nvm-sh/nvm) to manage Node versions.
+- Node 22: the exact version is in `.nvmrc` (22.14.0). From the repo root run `nvm install` (first time) and `nvm use`. pnpm refuses to install on a Node version outside `>=22 <23` (`engines` in `package.json`, `engineStrict: true` in `pnpm-workspace.yaml`).
+- pnpm 11: pinned in the `packageManager` field of `package.json` (11.11.0). Enable it with `corepack enable` or install it globally.
+
+Then install dependencies with `pnpm install`.
+
+## Commands
+
+| Command | What it does |
 | --- | --- |
-| `pnpm dev` | Inicia el servidor de desarrollo de Next.js (por defecto en http://localhost:3000). |
-| `pnpm build` | Genera el build de producción. |
-| `pnpm start` | Sirve el build de producción; ejecuta `pnpm build` antes. |
-| `pnpm lint` | Ejecuta ESLint. |
-| `pnpm typecheck` | Comprueba los tipos de TypeScript sin emitir archivos. |
-| `pnpm format` | Da formato a los archivos con Prettier. |
-| `pnpm format:check` | Comprueba el formato sin modificar archivos. |
-| `pnpm test` | Ejecuta los tests una vez con Vitest. |
-| `pnpm test:watch` | Ejecuta Vitest en modo watch. |
+| `pnpm dev` | Starts the Next.js dev server (http://localhost:3000 by default). |
+| `pnpm build` | Creates the production build. |
+| `pnpm start` | Serves the production build; run `pnpm build` first. |
+| `pnpm lint` | Runs ESLint. |
+| `pnpm typecheck` | Type-checks with TypeScript without emitting files. |
+| `pnpm format` | Formats files with Prettier. |
+| `pnpm format:check` | Checks formatting without writing. |
+| `pnpm test` | Runs the Vitest suite once. |
+| `pnpm test:watch` | Runs Vitest in watch mode. |
+
+## Project layout
+
+| Path | Contents |
+| --- | --- |
+| `src/app/` | Routes (App Router), layout, PWA manifest and service worker. |
+| `src/components/ui/` | Base components (Button, Input, Select, Card, Badge, Modal, Avatar, EmptyState, Skeleton). |
+| `src/components/shell/` | Header, search pill, user menu, bottom nav, role navigation (`nav.ts`). |
+| `src/features/` | Feature modules: `listings`, `property-detail`, `session`. |
+| `src/domain/` | Zod schemas, business rules (`rules.ts`), approximate geo. |
+| `src/data/` | Seed, `localStorage` DB and async repositories (import from `@/data`). |
+| `src/lib/` | Helpers (`cn`, COP and date formatting). |
+
+Design tokens (brand `#E11D48`, Inter, radii, shadows) live in `src/app/globals.css` as CSS variables exposed to Tailwind via `@theme`.
 
 ### PWA
 
-- El service worker solo se genera y registra en el build de producción. Con `pnpm dev` no hay service worker: para probarlo usa `pnpm build && pnpm start`.
-- El service worker se sirve en `/serwist/sw.js` (con `Service-Worker-Allowed: /`). Su código fuente está en `src/app/sw.ts`; la ruta que lo compila está en `src/app/serwist/[path]/route.ts`.
-- La página `/offline` se guarda en caché al instalar el service worker. Si no hay conexión y la página no está en caché, el navegador muestra "Sin conexión".
-- Para probar el modo sin conexión:
-  1. Ejecuta `pnpm build && pnpm start` y abre http://localhost:3000.
-  2. En DevTools abre Application > Service workers y confirma que el service worker está activo y controla la página.
-  3. Visita `/` con el service worker ya controlando la página (recarga después de la primera carga). Una página visitada solo antes de que el service worker tome control no se guarda: si `/` está en ese caso, offline mostrará "Sin conexión".
-  4. Marca "Offline" en Application > Service workers (o detén el servidor). Recarga: `/` vuelve a mostrarse desde caché y una ruta nunca visitada muestra "Sin conexión".
+- The service worker is only built and registered in production. `pnpm dev` has no service worker; use `pnpm build && pnpm start` to test it.
+- It is served at `/serwist/sw.js` (with `Service-Worker-Allowed: /`). Source: `src/app/sw.ts`; the route that compiles it: `src/app/serwist/[path]/route.ts`.
+- `/offline` is precached on install. With no connection and no cached page, the browser shows the "Sin conexión" page.
+- To test offline mode:
+  1. Run `pnpm build && pnpm start` and open http://localhost:3000.
+  2. In DevTools, open Application > Service workers and confirm the worker is active and controls the page.
+  3. Visit `/` while the worker controls the page (reload after the first load). Pages visited before the worker took control are not cached.
+  4. Tick "Offline" (or stop the server) and reload: `/` comes from the cache and a never-visited route shows "Sin conexión".
+- When testing new builds in a browser, a previously installed worker may serve cached pages: reload twice or clear site data.
 
 ### CI
 
-GitHub Actions (`.github/workflows/ci.yml`) se ejecuta en PRs hacia `development` y `feature/**`, y en push a `development`. Instala con `pnpm install --frozen-lockfile` y ejecuta `format:check`, `lint`, `typecheck`, `test` y `build`.
+GitHub Actions (`.github/workflows/ci.yml`) runs on PRs to `master`, `development` and `feature/**`, and on pushes to `development`. It installs with `pnpm install --frozen-lockfile` and runs `format:check`, `lint`, `typecheck`, `test` and `build`.
 
 ---
 
