@@ -2,12 +2,12 @@
 
 PWA para comprar y vender inmuebles con tres roles: Tenant (usuario que compra o publica inmuebles; no es arrendatario), Admin (valida inmuebles y documentos) y Broker (muestra inmuebles y agenda notaría). El MVP funciona solo con datos simulados.
 
-Estado: base técnica (HB-3, checkpoint 1.1). La página de inicio es provisional; las funcionalidades de producto llegan en tickets posteriores.
+Estado: base técnica completa (HB-3): Next.js + PWA + CI. La página de inicio es provisional; las funcionalidades de producto llegan en tickets posteriores.
 
 ## Requisitos previos
 
 - [nvm](https://github.com/nvm-sh/nvm) para gestionar versiones de Node.
-- Node 22: la versión exacta está en `.nvmrc` (22.14.0). Desde la raíz del repositorio ejecuta `nvm install` (si aún no la tienes) y luego `nvm use`.
+- Node 22: la versión exacta está en `.nvmrc` (22.14.0). Desde la raíz del repositorio ejecuta `nvm install` (si aún no la tienes) y luego `nvm use`. pnpm rechaza instalar con una versión de Node fuera del rango `>=22 <23` (`engines` en `package.json`; `engineStrict: true` en `pnpm-workspace.yaml`).
 - pnpm 11: la versión está fijada en el campo `packageManager` de `package.json` (11.11.0). Actívala con `corepack enable` o instálala globalmente.
 
 Después instala las dependencias con `pnpm install`.
@@ -25,6 +25,21 @@ Después instala las dependencias con `pnpm install`.
 | `pnpm format:check` | Comprueba el formato sin modificar archivos. |
 | `pnpm test` | Ejecuta los tests una vez con Vitest. |
 | `pnpm test:watch` | Ejecuta Vitest en modo watch. |
+
+### PWA
+
+- El service worker solo se genera y registra en el build de producción. Con `pnpm dev` no hay service worker: para probarlo usa `pnpm build && pnpm start`.
+- El service worker se sirve en `/serwist/sw.js` (con `Service-Worker-Allowed: /`). Su código fuente está en `src/app/sw.ts`; la ruta que lo compila está en `src/app/serwist/[path]/route.ts`.
+- La página `/offline` se guarda en caché al instalar el service worker. Si no hay conexión y la página no está en caché, el navegador muestra "Sin conexión".
+- Para probar el modo sin conexión:
+  1. Ejecuta `pnpm build && pnpm start` y abre http://localhost:3000.
+  2. En DevTools abre Application > Service workers y confirma que el service worker está activo y controla la página.
+  3. Visita `/` con el service worker ya controlando la página (recarga después de la primera carga). Una página visitada solo antes de que el service worker tome control no se guarda: si `/` está en ese caso, offline mostrará "Sin conexión".
+  4. Marca "Offline" en Application > Service workers (o detén el servidor). Recarga: `/` vuelve a mostrarse desde caché y una ruta nunca visitada muestra "Sin conexión".
+
+### CI
+
+GitHub Actions (`.github/workflows/ci.yml`) se ejecuta en PRs hacia `development` y `feature/**`, y en push a `development`. Instala con `pnpm install --frozen-lockfile` y ejecuta `format:check`, `lint`, `typecheck`, `test` y `build`.
 
 ---
 
