@@ -39,7 +39,7 @@ Status legend: not-started | in-progress | in-review | done | deferred. Done mea
   - Goal: an installable, tested, CI-checked Next.js app shell with no product features
   - Exit criteria: all ACs covered; `pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass locally and in CI
   - Checkpoints:
-    - [ ] 1.1 - Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke test - in-review - PR pending / 2026-11-12 - peer-reviewers: pending
+    - [ ] 1.1 - Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke test - in-review - 3f16878 / PR #17 / 2026-11-12 - peer-reviewers: pending
     - [ ] 1.2 - PWA (manifest, icons, Serwist SW, offline page) + GitHub Actions CI - not-started
 
 Acceptance criteria coverage:
@@ -59,7 +59,7 @@ Plan history:
 ## Pull Requests
 
 - Feature PR (draft): #16
-- Checkpoint PRs: 1.1 - pending (into `feature/HB-3-nextjs-pwa-scaffold`)
+- Checkpoint PRs: 1.1 - #17 (in-review) (into `feature/HB-3-nextjs-pwa-scaffold`)
 
 ## Risks, Assumptions, Open Questions
 

@@ -53,7 +53,7 @@ Bootstrap the Next.js PWA with the stack, layout and validation commands declare
 
 | Phase | Checkpoint | Scope | Status | Commit / PR | ACs | Peer-reviewers | Validation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 - Runnable, validated base (in-progress) | 1.1 | Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke | in-review | PR pending | AC1 AC2 AC3 AC4 AC6 | pending | install, format:check, lint, typecheck, test, build, dev |
+| 1 - Runnable, validated base (in-progress) | 1.1 | Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke | in-review | 3f16878 / #17 | AC1 AC2 AC3 AC4 AC6 | pending | install, format:check, lint, typecheck, test, build, dev |
 | 1 - Runnable, validated base (in-progress) | 1.2 | PWA (manifest, icons, Serwist, offline) + CI + engine-strict | not-started | - | AC5 AC7 (AC6 re-check) | - | - |
 
 Acceptance criteria coverage:
@@ -68,7 +68,7 @@ Acceptance criteria coverage:
 
 Plan history:
 - 2026-11-12 - initial plan accepted
-- 2026-11-12 - 1.1 in-review; engine-strict added to 1.2
+- 2026-11-12 - 1.1 in-review (3f16878, #17); engine-strict added to 1.2
 
 ## Validation Commands
 
