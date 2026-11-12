@@ -66,3 +66,14 @@ export const ROLE_LABEL: Record<Role, string> = {
   admin: "Admin",
   broker: "Broker",
 };
+
+const noop = () => () => {};
+
+/** False during SSR and hydration, true once the client store can be read. */
+export function useHydrated(): boolean {
+  return useSyncExternalStore(
+    noop,
+    () => true,
+    () => false,
+  );
+}
