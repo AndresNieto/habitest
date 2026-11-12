@@ -10,7 +10,7 @@ Agent context: [agent-context.md](agent-context.md)
 - Last tracker refresh: 2026-11-12
 - Status / priority / assignee: open / P0 / AndresNieto; labels phase-1-setup, chore, area/platform, priority/P0; milestone phase-1-setup
 - Local sync: current
-- Lifecycle notes: start posted, pickup skipped, handoff deferred, transition deferred
+- Lifecycle notes: start posted, pickup skipped, handoff deferred, transition deferred; merges into feature/development authorized by AndresNieto 2026-11-12
 - Workflow adherence: On workflow
 
 ## Summary
@@ -29,7 +29,7 @@ Create the technical base of the Habi PWA: Next.js (App Router) + TypeScript str
 
 ## Proposed Solution
 
-`create-next-app` equivalent setup with pnpm on Node 22 LTS, `src/` layout per the profile, Tailwind, ESLint (Next config) + Prettier, Vitest with jsdom and Testing Library. PWA via `@serwist/next` (service worker built only in production), `src/app/manifest.ts`, generated placeholder icons, `/offline` route used as precache fallback. CI in `.github/workflows/ci.yml`.
+`create-next-app` equivalent setup with pnpm on Node 22 LTS, `src/` layout per the profile, Tailwind, ESLint (Next config) + Prettier, Vitest with jsdom and Testing Library. PWA via `@serwist/turbopack` (SW built by a route handler, served at `/serwist/sw.js`, registered only in production; `@serwist/next` was rejected because it is webpack-only), `src/app/manifest.ts`, generated placeholder icons, `/offline` route used as precache fallback. CI in `.github/workflows/ci.yml`.
 
 ## Feature Plan
 
@@ -39,32 +39,35 @@ Status legend: not-started | in-progress | in-review | done | deferred. Done mea
   - Goal: an installable, tested, CI-checked Next.js app shell with no product features
   - Exit criteria: all ACs covered; `pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass locally and in CI
   - Checkpoints:
-    - [ ] 1.1 - Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke test - in-review - 3f16878 / PR #17 / 2026-11-12 - peer-reviewers: pending
-    - [ ] 1.2 - PWA (manifest, icons, Serwist SW, offline page) + GitHub Actions CI - not-started
+    - [x] 1.1 - Next.js + TS strict + Tailwind + ESLint/Prettier + Node pin + Vitest smoke test - done - d6a2c77 / PR #17 / 2026-11-12 - peer-reviewers: none (agent-merged under user authority)
+    - [ ] 1.2 - PWA (manifest, icons, Serwist SW, offline page) + GitHub Actions CI + engine-strict - in-review - PR pending / 2026-11-12 - peer-reviewers: pending
 
 Acceptance criteria coverage:
 
-- [ ] AC1 - covered by 1.1 (in-review; checked on merge)
-- [ ] AC2 - covered by 1.1 (in-review; checked on merge)
-- [ ] AC3 - covered by 1.1 (in-review; checked on merge)
-- [ ] AC4 - covered by 1.1 (in-review; checked on merge)
-- [ ] AC5 - not yet covered (1.2)
-- [ ] AC6 - covered by 1.1 (in-review; re-verified in 1.2)
-- [ ] AC7 - not yet covered (1.2)
+- [x] AC1 - covered by 1.1 (merged d6a2c77)
+- [x] AC2 - covered by 1.1 (merged d6a2c77)
+- [x] AC3 - covered by 1.1 (merged d6a2c77)
+- [x] AC4 - covered by 1.1 (merged d6a2c77)
+- [ ] AC5 - covered by 1.2 (in-review; headless Chrome CDP, 2 profiles)
+- [x] AC6 - covered by 1.1 (merged d6a2c77; re-verified in 1.2)
+- [ ] AC7 - covered by 1.2 (in-review; confirmed by first CI run on the PR)
 
 Plan history:
 - 2026-11-12 - initial plan accepted (2 checkpoints, Node 22 LTS) by AndresNieto
 - 2026-11-12 - 1.1 in-review; AC1 AC2 AC3 AC4 AC6 covered; `engine-strict` added to 1.2 scope (test-agent finding)
+- 2026-11-12 - 1.1 merged (d6a2c77, squash, agent-merged under user authority); 1.2 in-progress
+- 2026-11-12 - 1.2 in-review after 1 bugfix round (D1 offline fallback → setCatchHandler)
 
 ## Pull Requests
 
 - Feature PR (draft): #16
-- Checkpoint PRs: 1.1 - #17 (in-review) (into `feature/HB-3-nextjs-pwa-scaffold`)
+- Checkpoint PRs: 1.1 - #17 (merged d6a2c77); 1.2 - pending (into `feature/HB-3-nextjs-pwa-scaffold`)
 
 ## Risks, Assumptions, Open Questions
 
 - Local default Node is 18.20; the project pins 22 via `.nvmrc` (`nvm use`). Developers must switch.
-- Serwist needs a webpack build; if the Next.js version defaults to Turbopack for `build`, the build script must opt into webpack. Verified in 1.2.
+- Resolved in 1.2: `@serwist/turbopack` keeps the Turbopack build. pnpm resolves two `serwist` instances (peer variation), so `fallbacks` (instanceof-based) is replaced by `setCatchHandler` in `src/app/sw.ts`.
+- Offline `/` only works after a visit under SW control (`/` is not precached); first-visit-then-offline shows `/offline`.
 - `engines` is not enforced without `engine-strict`; `.npmrc` with `engine-strict=true` lands in 1.2.
 - `src/app/globals.css` references undefined `--font-geist-sans/mono`; deferred to HB-4 (design tokens).
 - `next.config.ts` keeps `agentRules: false` (Next 16 `next dev` otherwise rewrites root `AGENTS.md`) and `turbopack.root` (stray lockfiles in the home dir).
@@ -74,7 +77,8 @@ Plan history:
 
 - 1.1: `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm dev` boots.
 - 1.1 evidence (2026-11-12, Node 22.14.0): install --frozen-lockfile, format:check, lint, typecheck, test 1/1, build all pass (orchestrator re-run + test-agent); dev server served `/` with `lang="es"` and the heading; lint/prettier negative probes failed as expected.
-- 1.2: same + production build emits the service worker, the manifest is served, `/offline` renders; CI green on the checkpoint PR.
+- 1.2 evidence (2026-11-12): orchestrator re-ran install/format:check/lint/typecheck/test 2/2/build — pass; test-agent headless Chrome 157 (2 fresh profiles, server killed): SW scope `/`, installability errors `[]`, online unknown path → 404, offline never-visited → "Sin conexión", offline `/` after controlled visit → home; install with Node 20.19.6 refused.
+- 1.2 plan: same + production build emits the service worker, the manifest is served, `/offline` renders; CI green on the checkpoint PR.
 
 ## Handoff
 

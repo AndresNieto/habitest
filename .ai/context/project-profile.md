@@ -14,11 +14,11 @@ Reference projects:      None               # e.g. a legacy app this one ports; 
 ## Stack
 
 ```text
-Language / framework:    TypeScript (strict) + Next.js App Router (latest stable at scaffold, HB-3) + React; Tailwind CSS; PWA via Serwist (@serwist/next); Node >= 20.9 (pinned in .nvmrc); package manager pnpm
+Language / framework:    TypeScript (strict) + Next.js App Router (latest stable at scaffold, HB-3) + React; Tailwind CSS; PWA via Serwist (@serwist/turbopack; SW served at /serwist/sw.js, production only); Node 22 (22.14.0 in .nvmrc; engines >=22 <23 enforced by engineStrict in pnpm-workspace.yaml); package manager pnpm
 Architecture:            feature-first (src/features/<feature>/{components,hooks,lib}) + shared UI (src/components/ui) + domain/data layer (src/domain types+zod, src/data repositories over mock storage). UI never touches mock storage directly; it calls repositories so a real API can replace them later
 State management:        React Server/Client components; client state in Zustand stores (persist middleware -> localStorage for mock data and session); forms with React Hook Form + Zod. Libraries beyond Next.js/React/Tailwind/Serwist are proposed, confirmed by the user in HB-3 before install
 Routing:                 Next.js App Router under src/app; route groups (public), (tenant), admin/, broker/; role guards in a client RoleGuard + layout checks (no real auth in MVP)
-Generated code:          None               # Next.js/Serwist build output (.next/, public/sw.js) is generated and git-ignored
+Generated code:          None               # SW is built by a route handler at build time into .next/; nothing generated in public/
 Data:                    mock only in MVP: seed in src/data/seed, persisted to localStorage; no backend, no database, no real auth
 Source root:             src/
 Test root:               colocated *.test.ts(x) next to source; e2e in e2e/ (Playwright, HB-14)

@@ -7,3 +7,8 @@ next-env.d.ts
 *.tsbuildinfo
 .env*.local
 .vercel
+
+# Serwist generated service worker (defensive; Turbopack integration serves it from a route)
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js

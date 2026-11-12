@@ -18,9 +18,12 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@serwist/turbopack": "9.5.13",
+    "esbuild": "^0.28.2",
     "next": "16.4.6",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "serwist": "9.5.13"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
