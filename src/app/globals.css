@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
+/*
+ * Habi design tokens.
+ * Raw values live in CSS variables on :root so they can be read at runtime;
+ * @theme exposes them to Tailwind as utilities (bg-brand, text-ink-muted, ...).
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand: #e11d48;
+  --brand-hover: #be123c;
+  --brand-soft: #fff1f2;
+  --ink: #1f1f1f;
+  --ink-muted: #5c5c5c;
+  --ink-subtle: #717171;
+  --surface: #ffffff;
+  --surface-muted: #f7f7f7;
+  --line: #dddddd;
+  --line-strong: #b0b0b0;
+  --success: #047857;
+  --success-soft: #ecfdf5;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
+  --info: #1d4ed8;
+  --info-soft: #eff6ff;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-card: 0 6px 16px rgb(0 0 0 / 0.12);
+  --shadow-pill: 0 1px 2px rgb(0 0 0 / 0.08), 0 4px 12px rgb(0 0 0 / 0.05);
+  --shadow-pop: 0 8px 28px rgb(0 0 0 / 0.28);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* Visible keyboard focus everywhere (AA). */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
