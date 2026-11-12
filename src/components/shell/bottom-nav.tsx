@@ -10,8 +10,9 @@ export function BottomNav() {
   const pathname = usePathname();
   const user = useSession();
   const items = NAV[user?.role ?? "guest"];
-  // Property pages show their own sticky "Agendar visita" bar instead.
-  if (pathname.startsWith("/properties/")) return null;
+  // Property pages and the publish wizard render their own sticky action bar.
+  if (pathname.startsWith("/properties/") || pathname.startsWith("/publish"))
+    return null;
 
   return (
     <nav
